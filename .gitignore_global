@@ -1,0 +1,7 @@
+## git config --global core.excludesfile ~/.gitignore_global
+*.swp
+*.swo
+*.pyc
+cscope.*
+TAGS
+tags

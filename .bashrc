@@ -109,19 +109,11 @@ fi
 
 export GOROOT=/usr/local/go
 
-PATH=$PATH:~/bin/:~/.rbenv/bin:/usr/local/share/python:${GOROOT//://bin:}/bin:~/src/go/bin/
-
-eval "$(rbenv init -)"
+PATH=$PATH:~/bin/:/usr/local/share/python:${GOROOT//://bin:}/bin:~/src/go/bin/
 
 HISTORY=10000
 
 
 if [ -x /usr/bin/dircolors ]; then
 	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
- fi
-
-# The next line updates PATH for the Google Cloud SDK.
-source '/home/fahmed/google-cloud-sdk/path.bash.inc'
-
-# The next line enables shell command completion for gcloud.
-source '/home/fahmed/google-cloud-sdk/completion.bash.inc'
+fi

@@ -5,8 +5,6 @@ let g:golang_goroot="/usr/local/go"
 let g:godef_split = 2
 let mapleader="-"
 
-"
-"
 " set expandtab
 " set softtabstop=4
 " set shiftwidth=4
@@ -51,6 +49,7 @@ let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_fmt_command = "goimports"
+let g:go_bin_path = expand("~/.gotools")
 
 
 "
@@ -101,3 +100,8 @@ let g:tagbar_type_go = {
 nmap <F8> :TagbarToggle<CR>
 
 colorscheme peachpuff
+
+"
+" cntrl + p path munging rediculousness
+let g:ctrlp_working_path_mode = 0
+

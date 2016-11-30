@@ -109,7 +109,7 @@ fi
 
 export GOROOT=/usr/local/go
 
-PATH=$PATH:~/bin/:/usr/local/share/python:${GOROOT//://bin:}/bin:~/src/go/bin/
+PATH=$PATH:~/bin/:/usr/local/share/python:${GOROOT//://bin:}/bin:~/src/go/bin/:~/.gotools
 
 HISTORY=10000
 

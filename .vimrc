@@ -10,6 +10,7 @@ let mapleader="-"
 " set shiftwidth=4
 " set nowrapscan
 " set tags=tags
+
 nnoremap # :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
 set hlsearch
 set nu
@@ -18,8 +19,8 @@ syntax on
 set noerrorbells
 set novisualbell
 " set t_vb=
- nnoremap <C-H> :tabprevious<CR>
- nnoremap <C-L> :tabnext<CR>
+nnoremap <C-H> :tabprevious<CR>
+nnoremap <C-L> :tabnext<CR>
 "
 " " Trim trailing whitespace
 au BufWritePre * :%s/\s\+$//e
@@ -60,15 +61,25 @@ set mouse = ""
 
 set list lcs=trail:·,tab:»·
 
-"
-" set background=dark
-" let g:solarized_termtrans=1
-" let g:solarized_termcolors=256
-" let g:solarized_contrast="high"
-" let g:solarized_visibility="high"
-" colorscheme solarized
+" path
+set statusline+=%f
+" flags
+set statusline+=%m%r%h%w
+" git branch
+set statusline+=\ %{fugitive#statusline()}
+" line x of y
+set statusline+=\ [line\ %l\/%L]
 
-let g:neocomplete#enable_at_startup = 1
+" Colour
+" hi StatusLine ctermfg=Black ctermbg=White
+" hi StatusLineNC ctermfg=Black ctermbg=Grey
+
+" neocomplete
+let g:deoplete#enable_at_startup = 1
+" cntrl + p path munging rediculousness
+let g:ctrlp_working_path_mode = 0
+
+nmap <F8> :TagbarToggle<CR>
 let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',
     \ 'kinds'     : [
@@ -97,11 +108,7 @@ let g:tagbar_type_go = {
     \ 'ctagsargs' : '-sort -silent'
     \ }
 
-nmap <F8> :TagbarToggle<CR>
-
-colorscheme peachpuff
-
-"
-" cntrl + p path munging rediculousness
-let g:ctrlp_working_path_mode = 0
-
+colorscheme industry
+set background=light
+hi clear Search
+hi Search ctermfg=4 ctermbg=3 cterm=bold,underline

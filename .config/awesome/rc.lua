@@ -363,9 +363,10 @@ globalkeys = awful.util.table.join(
               {description = "show the menubar", group = "launcher"}),
 
     -- MMKeys
-    awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn("amixer set Master playback 3-") end),
-    awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn("amixer set Master playback 3+") end),
-    awful.key({ }, "XF86AudioMute", function () awful.util.spawn("amixer set Master playback 0") end),
+    awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn("amixer sset Master playback 3000-") end),
+    awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn("amixer sset Master playback 3000+") end),
+    awful.key({ }, "XF86AudioMute", function () awful.util.spawn("amixer sset Master toggle") end),
+    awful.key({ }, "XF86AudioMicMute", function () awful.util.spawn("amixer sset Capture toggle") end),
     awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("banshee --toggle-playing") end),
     awful.key({ }, "XF86AudioStop", function () awful.util.spawn("banshee --stop") end),
     awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("banshee --previous") end),

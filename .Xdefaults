@@ -35,7 +35,7 @@ URxvt.lineSpace:            0
 
 ! Fonts
 /* URxvt.font:                 -*-terminus-medium-r-normal-*-12-120-72-72-c-60-iso8859-1 */
-URxvt*font: xft:Ubuntu Mono:pixelsize=12
+URxvt*font: xft:Ubuntu Mono:antialias=true:pixelsize=12
 !URxvt*font: xft:Monospace:pixelsize=10
 URxvt*boldFont: xft:Monospace:pixelsize=12
 

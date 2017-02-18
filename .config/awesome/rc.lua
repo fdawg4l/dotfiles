@@ -10,7 +10,10 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
-local power_supply = require("power_supply")
+
+-- Custom widgets
+local power_supply = require("widgets.power_supply")
+local volume_widget = require("widgets.volume")
 
 -- Load Debian menu entries
 require("debian.menu")
@@ -145,6 +148,14 @@ mytimer:connect_signal ("timeout", function() myBAT0imagewidget:set_image (power
 mytimer:connect_signal ("timeout", function() myACimagewidget:set_image (power_supply.prepareACImage ("AC")) end)
 mytimer:start ()
 
+-- Volume widget
+local volumewidget = volume_widget()
+volumeimagewidget = wibox.widget.imagebox()
+volumeimagewidget:set_image ("/home/fahmed/.config/awesome/images/speaker.png")
+
+local separator = wibox.widget.textbox()
+separator.text = "  "
+
 -- Create a wibox for each screen and add it
 local taglist_buttons = awful.util.table.join(
                     awful.button({ }, 1, function(t) t:view_only() end),
@@ -243,11 +254,15 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray(),
-            mytextclock,
             myBAT0imagewidget,
             myBAT0widget,
+            separator,
+            volumeimagewidget,
+            volumewidget,
+            separator,
             --myBAT1imagewidget,
             --myBAT1widget,
+            mytextclock,
             s.mylayoutbox,
         },
     }
@@ -363,10 +378,29 @@ globalkeys = awful.util.table.join(
               {description = "show the menubar", group = "launcher"}),
 
     -- MMKeys
-    awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn("amixer sset Master playback 3000-") end),
-    awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn("amixer sset Master playback 3000+") end),
-    awful.key({ }, "XF86AudioMute", function () awful.util.spawn("amixer sset Master toggle") end),
-    awful.key({ }, "XF86AudioMicMute", function () awful.util.spawn("amixer sset Capture toggle") end),
+    awful.key({ }, "XF86AudioLowerVolume",
+        function ()
+                awful.util.spawn("amixer sset Master playback 3000-")
+                volumewidget:update()
+        end),
+
+    awful.key({ }, "XF86AudioRaiseVolume",
+        function ()
+                awful.util.spawn("amixer sset Master playback 3000+")
+                volumewidget:update()
+        end),
+
+    awful.key({ }, "XF86AudioMute",
+        function ()
+                awful.util.spawn("amixer sset Master toggle")
+                volumewidget:update()
+        end),
+
+    awful.key({ }, "XF86AudioMicMute",
+        function ()
+                awful.util.spawn("amixer sset Capture toggle")
+        end),
+
     awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("banshee --toggle-playing") end),
     awful.key({ }, "XF86AudioStop", function () awful.util.spawn("banshee --stop") end),
     awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("banshee --previous") end),

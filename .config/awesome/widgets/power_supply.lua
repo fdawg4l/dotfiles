@@ -3,7 +3,7 @@ local io = io
 local tonumber = tonumber
 local math = math
 
-module ("power_supply")
+module ("widgets.power_supply")
 
 function powerSupplyOnline (power_supply)
         FileHnd, ErrStr = io.open ("/sys/class/power_supply/" .. power_supply .. "/online", "r")

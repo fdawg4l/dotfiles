@@ -123,7 +123,7 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock()
+mytextclock = wibox.widget.textclock("%a %b %d, %I:%M %p",30)
 
 -- {{{ Wibox
 -- Create a textbox and an imagebox showing battery stats for BAT0 and BAT1
@@ -150,6 +150,7 @@ mytimer:start ()
 
 -- Volume widget
 local volumewidget = volume_widget()
+volumewidget:update()
 volumeimagewidget = wibox.widget.imagebox()
 volumeimagewidget:set_image ("/home/fahmed/.config/awesome/images/speaker.png")
 
@@ -542,7 +543,8 @@ awful.rules.rules = {
 
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = true }
+      -- }, properties = { titlebars_enabled = true }
+      }, properties = { titlebars_enabled = false }
     },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
@@ -620,4 +622,5 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 awful.spawn.with_shell('~/.config/awesome/locker.sh')
+awful.util.spawn("nm-applet")
 -- }}}

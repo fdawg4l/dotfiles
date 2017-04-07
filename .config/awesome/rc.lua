@@ -623,5 +623,5 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 awful.spawn.with_shell('~/.config/awesome/locker.sh')
 awful.util.spawn("nm-applet")
-awful.util.spawn("~/.config/awesome/monitor_span.sh")
+awful.spawn.with_shell("~/.config/awesome/monitor_span.sh")
 -- }}}

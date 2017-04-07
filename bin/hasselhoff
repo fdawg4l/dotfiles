@@ -1,0 +1,3 @@
+#!/bin/sh
+#ssh hasselhoff.prom.eng.vmware.com -A $* $2
+ssh 10.118.67.201 -A $* $2

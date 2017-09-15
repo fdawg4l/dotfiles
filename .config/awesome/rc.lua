@@ -132,8 +132,8 @@ myBAT0imagewidget:set_image (power_supply.prepareImage ("BAT0"))
 myBAT0widget = wibox.widget.textbox () --{type = "textbox", name = "BAT0widget", align = "right" })
 myBAT0widget:set_text (power_supply.prepareTime ("BAT0"))
 
---myBAT1imagewidget = wibox.widget.imagebox () --{type = "imagebox", name = "BAT1imagewidget", align = "right"})
---myBAT1imagewidget:set_image (power_supply.prepareImage ("BAT1"))
+myBAT1imagewidget = wibox.widget.imagebox () --{type = "imagebox", name = "BAT1imagewidget", align = "right"})
+myBAT1imagewidget:set_image (power_supply.prepareImage ("BAT1"))
 myBAT1widget = wibox.widget.textbox () --{type = "textbox", name = "BAT1widget", align = "right" })
 myBAT1widget:set_text (power_supply.prepareTime ("BAT1"))
 
@@ -143,8 +143,8 @@ myACimagewidget:set_image (power_supply.prepareACImage ("AC"))
 mytimer = gears.timer ({timeout = 300})
 mytimer:connect_signal ("timeout", function() myBAT0widget:set_text (power_supply.prepareTime ("BAT0")) end)
 mytimer:connect_signal ("timeout", function() myBAT0imagewidget:set_image (power_supply.prepareImage ("BAT0")) end)
---mytimer:connect_signal ("timeout", function() myBAT1widget:set_text (power_supply.prepareTime ("BAT1")) end)
---mytimer:connect_signal ("timeout", function() myBAT1imagewidget:set_image (power_supply.prepareImage ("BAT1")) end)
+mytimer:connect_signal ("timeout", function() myBAT1widget:set_text (power_supply.prepareTime ("BAT1")) end)
+mytimer:connect_signal ("timeout", function() myBAT1imagewidget:set_image (power_supply.prepareImage ("BAT1")) end)
 mytimer:connect_signal ("timeout", function() myACimagewidget:set_image (power_supply.prepareACImage ("AC")) end)
 mytimer:start ()
 
@@ -261,8 +261,9 @@ awful.screen.connect_for_each_screen(function(s)
             volumeimagewidget,
             volumewidget,
             separator,
-            --myBAT1imagewidget,
-            --myBAT1widget,
+            myBAT1imagewidget,
+            myBAT1widget,
+            separator,
             mytextclock,
             s.mylayoutbox,
         },
@@ -542,9 +543,14 @@ awful.rules.rules = {
       }, properties = { floating = true }},
 
     -- Add titlebars to normal clients and dialogs
-    { rule_any = {type = { "normal", "dialog" }
-      -- }, properties = { titlebars_enabled = true }
-      }, properties = { titlebars_enabled = false }
+    { rule_any = {
+	    type = { 
+		    "normal",
+		    "dialog" }
+      	} , properties = {
+		titlebars_enabled = true 
+	}
+      -- }, properties = { titlebars_enabled = false }
     },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.

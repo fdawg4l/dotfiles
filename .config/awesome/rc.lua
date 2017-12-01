@@ -12,8 +12,8 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 
 -- Custom widgets
-local power_supply = require("widgets.power_supply")
 local volume_widget = require("widgets.volume")
+local battery_widget = require("battery-widget")
 
 -- Load Debian menu entries
 require("debian.menu")
@@ -125,28 +125,27 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock("%a %b %d, %I:%M %p",30)
 
--- {{{ Wibox
--- Create a textbox and an imagebox showing battery stats for BAT0 and BAT1
-myBAT0imagewidget = wibox.widget.imagebox () --{type = "imagebox", name = "BAT0imagewidget", align = "right"})
-myBAT0imagewidget:set_image (power_supply.prepareImage ("BAT0"))
-myBAT0widget = wibox.widget.textbox () --{type = "textbox", name = "BAT0widget", align = "right" })
-myBAT0widget:set_text (power_supply.prepareTime ("BAT0"))
-
-myBAT1imagewidget = wibox.widget.imagebox () --{type = "imagebox", name = "BAT1imagewidget", align = "right"})
-myBAT1imagewidget:set_image (power_supply.prepareImage ("BAT1"))
-myBAT1widget = wibox.widget.textbox () --{type = "textbox", name = "BAT1widget", align = "right" })
-myBAT1widget:set_text (power_supply.prepareTime ("BAT1"))
-
-myACimagewidget = wibox.widget.imagebox ()--{type = "imagebox", name = "ACimagewidget", align = "right"})
-myACimagewidget:set_image (power_supply.prepareACImage ("AC"))
-
-mytimer = gears.timer ({timeout = 300})
-mytimer:connect_signal ("timeout", function() myBAT0widget:set_text (power_supply.prepareTime ("BAT0")) end)
-mytimer:connect_signal ("timeout", function() myBAT0imagewidget:set_image (power_supply.prepareImage ("BAT0")) end)
-mytimer:connect_signal ("timeout", function() myBAT1widget:set_text (power_supply.prepareTime ("BAT1")) end)
-mytimer:connect_signal ("timeout", function() myBAT1imagewidget:set_image (power_supply.prepareImage ("BAT1")) end)
-mytimer:connect_signal ("timeout", function() myACimagewidget:set_image (power_supply.prepareACImage ("AC")) end)
-mytimer:start ()
+-- Battery widget
+local batteries = {
+	spacing = 5,
+	layout = wibox.layout.fixed.horizontal,
+}
+for i, adapter in ipairs(battery_widget:discover()) do
+    table.insert(batteries, battery_widget({
+	    adapter = adapter,
+	    ac_prefix = "AC:",
+    	    battery_prefix = "Bat:",
+	    limits = {
+	        { 25, "red"   },
+	        { 50, "orange"},
+	        {100, "green" }
+	    },
+	    listen = true,
+	    timeout = 10,
+	    widget_text = "${AC_BAT}${color_on}${percent}%${color_off}",
+	    tooltip_text = "Battery ${state}${time_est}\nCapacity: ${capacity_percent}%"
+    }).widget)
+end
 
 -- Volume widget
 local volumewidget = volume_widget()
@@ -255,14 +254,11 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray(),
-            myBAT0imagewidget,
-            myBAT0widget,
             separator,
             volumeimagewidget,
             volumewidget,
             separator,
-            myBAT1imagewidget,
-            myBAT1widget,
+	    batteries,
             separator,
             mytextclock,
             s.mylayoutbox,
@@ -544,11 +540,11 @@ awful.rules.rules = {
 
     -- Add titlebars to normal clients and dialogs
     { rule_any = {
-	    type = { 
+	    type = {
 		    "normal",
 		    "dialog" }
       	} , properties = {
-		titlebars_enabled = true 
+		titlebars_enabled = true
 	}
       -- }, properties = { titlebars_enabled = false }
     },
@@ -628,5 +624,5 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 awful.spawn.with_shell('~/.config/awesome/locker.sh')
-awful.util.spawn("nm-applet")
+awful.spawn("nm-applet")
 -- }}}

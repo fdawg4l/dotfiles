@@ -34,6 +34,7 @@ call dein#add('altercation/vim-colors-solarized')
 " vim-fugitive
 call dein#add('tpope/vim-fugitive')
 
+call dein#add('vim-syntastic/syntastic')
 
 " You can specify revision/branch/tag.
 call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
@@ -162,3 +163,8 @@ colorscheme industry
 set background=light
 hi clear Search
 hi Search ctermfg=4 ctermbg=3 cterm=bold,underline
+
+highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red

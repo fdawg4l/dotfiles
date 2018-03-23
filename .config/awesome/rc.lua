@@ -378,13 +378,13 @@ globalkeys = awful.util.table.join(
     -- MMKeys
     awful.key({ }, "XF86AudioLowerVolume",
         function ()
-                awful.util.spawn("amixer sset Master playback 3000-")
+                awful.util.spawn("amixer sset Master playback 5-")
                 volumewidget:update()
         end),
 
     awful.key({ }, "XF86AudioRaiseVolume",
         function ()
-                awful.util.spawn("amixer sset Master playback 3000+")
+                awful.util.spawn("amixer sset Master playback 5+")
                 volumewidget:update()
         end),
 
@@ -402,7 +402,17 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("banshee --toggle-playing") end),
     awful.key({ }, "XF86AudioStop", function () awful.util.spawn("banshee --stop") end),
     awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("banshee --previous") end),
-    awful.key({ }, "XF86AudioNext", function () awful.util.spawn("banshee --next") end)
+    awful.key({ }, "XF86AudioNext", function () awful.util.spawn("banshee --next") end),
+
+    awful.key({ }, "XF86MonBrightnessUp",
+        function ()
+                awful.util.spawn("xbacklight -inc 5")
+        end),
+
+    awful.key({ }, "XF86MonBrightnessDown",
+        function ()
+                awful.util.spawn("xbacklight -dec 5")
+        end)
 )
 
 clientkeys = awful.util.table.join(
@@ -625,4 +635,5 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 awful.spawn.with_shell('~/.config/awesome/locker.sh')
 awful.spawn("nm-applet")
+awful.spawn("blueman-applet")
 -- }}}

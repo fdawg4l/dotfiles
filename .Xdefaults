@@ -36,7 +36,6 @@ URxvt.lineSpace:            0
 ! Fonts
 /* URxvt.font:                 -*-terminus-medium-r-normal-*-12-120-72-72-c-60-iso8859-1 */
 URxvt*font: xft:Ubuntu Mono:antialias=true:pixelsize=12
-!URxvt*font: xft:Monospace:pixelsize=10
 URxvt*boldFont: xft:Monospace:pixelsize=12
 
 ! Fix font space
@@ -47,7 +46,8 @@ URxvt.scrollStyle:          rxvt
 URxvt.scrollBar:            false
 
 ! Perl extensions
-URxvt.perl-ext-common:      default,matcher
+URxvt.perl-ext-common:      default,matcher,font-size,keyboard-select
+URxvt.font-size.step: 1
 URxvt.matcher.button:       1
 URxvt.urlLauncher:          google-chrome
 
@@ -89,5 +89,6 @@ URxvt.intensityStyles: false
 
 !! https://github.com/muennich/urxvt-perls
 
-URxvt.perl-ext-common: ...,keyboard-select
 URxvt.keysym.M-Escape: perl:keyboard-select:activate
+URxvt.iso14755: false
+URxvt.iso14755_52: false

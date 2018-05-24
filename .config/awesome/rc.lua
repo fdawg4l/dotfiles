@@ -14,9 +14,17 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- Custom widgets
 local volume_widget = require("widgets.volume")
 local battery_widget = require("battery-widget")
+local lain = require("lain")
+
+local cpu = lain.widget.cpu({
+    settings = function()
+        widget:set_markup(string.format("CPU:%02d%%", cpu_now.usage))
+    end
+})
 
 -- Load Debian menu entries
 require("debian.menu")
+local has_fdo, freedesktop = pcall(require, "freedesktop")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -45,7 +53,12 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(awful.util.get_themes_dir() .. "zenburn/theme.lua")
+-- beautiful.init(awful.util.get_themes_dir() .. "zenburn/theme.lua")
+beautiful.init("~/.config/awesome/themes/zenburn/theme.lua")
+-- beautiful.xresources.set_dpi(193, 1)
+beautiful.xresources.set_dpi(193, 1)
+-- sony tv
+--beautiful.xresources.set_dpi(107, 1)
 
 -- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator"
@@ -61,7 +74,7 @@ modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-    awful.layout.suit.floating,
+    awful.layout.suit.max,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
@@ -70,10 +83,10 @@ awful.layout.layouts = {
     awful.layout.suit.fair.horizontal,
     awful.layout.suit.spiral,
     awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier,
     awful.layout.suit.corner.nw,
+    awful.layout.suit.floating,
+    awful.layout.suit.max.fullscreen,
     -- awful.layout.suit.corner.ne,
     -- awful.layout.suit.corner.sw,
     -- awful.layout.suit.corner.se,
@@ -105,11 +118,23 @@ myawesomemenu = {
    { "quit", function() awesome.quit() end}
 }
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "Debian", debian.menu.Debian_menu.Debian },
-                                    { "open terminal", terminal }
-                                  }
-                        })
+local menu_awesome = { "awesome", myawesomemenu, beautiful.awesome_icon }
+local menu_terminal = { "open terminal", terminal }
+
+if has_fdo then
+    mymainmenu = freedesktop.menu.build({
+        before = { menu_awesome },
+        after =  { menu_terminal }
+    })
+else
+    mymainmenu = awful.menu({
+        items = {
+                  menu_awesome,
+                  { "Debian", debian.menu.Debian_menu.Debian },
+                  menu_terminal,
+                }
+    })
+end
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
@@ -251,6 +276,8 @@ awful.screen.connect_for_each_screen(function(s)
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
+	    cpu,
+            separator,
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray(),
@@ -636,4 +663,5 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 awful.spawn.with_shell('~/.config/awesome/locker.sh')
 awful.spawn("nm-applet")
 awful.spawn("blueman-applet")
+awful.spawn.with_shell("pulseaudio --start")
 -- }}}

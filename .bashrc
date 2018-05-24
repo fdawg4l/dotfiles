@@ -117,3 +117,15 @@ HISTORY=10000
 if [ -x /usr/bin/dircolors ]; then
 	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 fi
+
+cd () {
+    builtin cd "$@"
+    cdir=$PWD
+    while [ "$cdir" != "/" ]; do
+        if [ -e "$cdir/.gopath" ]; then
+            export GOPATH=$cdir
+            break
+        fi
+        cdir=$(dirname "$cdir")
+    done
+}

@@ -2,15 +2,10 @@
 local gears = require("gears")
 local awful = require("awful")
 require("awful.autofocus")
-require("awful.remote")
 -- Widget and layout library
 local wibox = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
-
--- spotify widget
-local spotify_widget = require("widgets.spotify")
-
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
@@ -23,13 +18,12 @@ local lain = require("lain")
 
 local cpu = lain.widget.cpu({
     settings = function()
-        widget:set_markup(string.format("CPU:%02d%%", cpu_now.usage))
+        widget:set_markup(string.format("CPU:%02d%% %02d%% %02d%% %02d%%", cpu_now[1].usage, cpu_now[2].usage, cpu_now[3].usage, cpu_now[4].usage))
     end
 })
 
 -- Load Debian menu entries
 require("debian.menu")
-local has_fdo, freedesktop = pcall(require, "freedesktop")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -58,12 +52,7 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
--- beautiful.init(awful.util.get_themes_dir() .. "zenburn/theme.lua")
-beautiful.init("~/.config/awesome/themes/zenburn/theme.lua")
--- beautiful.xresources.set_dpi(193, 1)
--- beautiful.xresources.set_dpi(193, 1)
--- sony tv
---beautiful.xresources.set_dpi(107, 1)
+beautiful.init(awful.util.get_themes_dir() .. "zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator"
@@ -80,6 +69,8 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
     awful.layout.suit.max,
+    awful.layout.suit.max.fullscreen,
+    awful.layout.suit.floating,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
@@ -90,15 +81,9 @@ awful.layout.layouts = {
     awful.layout.suit.spiral.dwindle,
     awful.layout.suit.magnifier,
     awful.layout.suit.corner.nw,
-    awful.layout.suit.floating,
-    awful.layout.suit.max.fullscreen,
-    --awful.layout.suit.corner.ne,
-    --awful.layout.suit.corner.sw,
-    --awful.layout.suit.corner.se,
-    lain.layout.cascade,
-    lain.layout.cascade.tile,
-    lain.layout.centerwork,
-    lain.layout.centerwork.horizontal,
+    -- awful.layout.suit.corner.ne,
+    -- awful.layout.suit.corner.sw,
+    -- awful.layout.suit.corner.se,
 }
 -- }}}
 
@@ -127,23 +112,11 @@ myawesomemenu = {
    { "quit", function() awesome.quit() end}
 }
 
-local menu_awesome = { "awesome", myawesomemenu, beautiful.awesome_icon }
-local menu_terminal = { "open terminal", terminal }
-
-if has_fdo then
-    mymainmenu = freedesktop.menu.build({
-        before = { menu_awesome },
-        after =  { menu_terminal }
-    })
-else
-    mymainmenu = awful.menu({
-        items = {
-                  menu_awesome,
-                  { "Debian", debian.menu.Debian_menu.Debian },
-                  menu_terminal,
-                }
-    })
-end
+mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+                                    { "Debian", debian.menu.Debian_menu.Debian },
+                                    { "open terminal", terminal }
+                                  }
+                        })
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
@@ -285,11 +258,9 @@ awful.screen.connect_for_each_screen(function(s)
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-	    spotify_widget,
-	    separator,
 	    cpu,
             separator,
+            layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray(),
             separator,
@@ -299,7 +270,6 @@ awful.screen.connect_for_each_screen(function(s)
 	    batteries,
             separator,
             mytextclock,
-	    separator,
             s.mylayoutbox,
         },
     }
@@ -438,10 +408,10 @@ globalkeys = awful.util.table.join(
                 awful.util.spawn("amixer sset Capture toggle")
         end),
 
-    awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("sp play") end),
-    awful.key({ }, "XF86AudioStop", function () awful.util.spawn("sp stop") end),
-    awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("sp prev") end),
-    awful.key({ }, "XF86AudioNext", function () awful.util.spawn("sp next") end),
+    awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("banshee --toggle-playing") end),
+    awful.key({ }, "XF86AudioStop", function () awful.util.spawn("banshee --stop") end),
+    awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("banshee --previous") end),
+    awful.key({ }, "XF86AudioNext", function () awful.util.spawn("banshee --next") end),
 
     awful.key({ }, "XF86MonBrightnessUp",
         function ()
@@ -675,6 +645,4 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 awful.spawn.with_shell('~/.config/awesome/locker.sh')
 awful.spawn("nm-applet")
 awful.spawn("blueman-applet")
-awful.spawn("mate-settings-daemon")
-awful.spawn.with_shell("pulseaudio --start")
 -- }}}

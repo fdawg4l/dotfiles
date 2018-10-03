@@ -8,6 +8,9 @@ local theme = {}
 theme.wallpaper = "/home/fahmed/Pictures/Arden.jpg"
 -- }}}
 
+local xresources = require("beautiful.xresources")
+local dpi = xresources.apply_dpi
+
 -- {{{ Styles
 theme.font      = "sans 8"
 
@@ -22,8 +25,8 @@ theme.bg_systray = theme.bg_normal
 -- }}}
 
 -- {{{ Borders
-theme.useless_gap   = 0
-theme.border_width  = 2
+theme.useless_gap   = dpi(0)
+theme.border_width  = dpi(1)
 theme.border_normal = "#3F3F3F"
 theme.border_focus  = "#6F6F6F"
 theme.border_marked = "#CC9393"
@@ -64,8 +67,8 @@ theme.mouse_finder_color = "#CC9393"
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
-theme.menu_height = 15
-theme.menu_width  = 100
+theme.menu_height = dpi(15)
+theme.menu_width  = dpi(100)
 -- }}}
 
 -- {{{ Icons
@@ -97,6 +100,15 @@ theme.layout_cornernw   = "/usr/share/awesome/themes/zenburn/layouts/cornernw.pn
 theme.layout_cornerne   = "/usr/share/awesome/themes/zenburn/layouts/cornerne.png"
 theme.layout_cornersw   = "/usr/share/awesome/themes/zenburn/layouts/cornersw.png"
 theme.layout_cornerse   = "/usr/share/awesome/themes/zenburn/layouts/cornerse.png"
+
+theme.lain_icons         = os.getenv("HOME") ..
+                           "/.config/awesome/lain/icons/layout/default/"
+theme.layout_termfair    = theme.lain_icons .. "termfair.png"
+theme.layout_centerfair  = theme.lain_icons .. "centerfair.png"  -- termfair.center
+theme.layout_cascade     = theme.lain_icons .. "cascade.png"
+theme.layout_cascadetile = theme.lain_icons .. "cascadetile.png" -- cascade.tile
+theme.layout_centerwork  = theme.lain_icons .. "centerwork.png"
+theme.layout_centerworkh = theme.lain_icons .. "centerworkh.png" -- centerwork.horizontal
 -- }}}
 
 -- {{{ Titlebar

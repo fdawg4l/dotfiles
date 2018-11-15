@@ -49,7 +49,7 @@ URxvt.scrollBar:            false
 URxvt.perl-ext-common:      default,matcher,font-size,keyboard-select
 URxvt.font-size.step: 1
 URxvt.matcher.button:       1
-URxvt.urlLauncher:          google-chrome
+! URxvt.urlLauncher:          google-chrome
 
 ! Cursor
 URxvt.cursorBlink:          true

@@ -161,14 +161,14 @@ mytextclock = wibox.widget.textclock("%a %b %d, %I:%M %p",30)
 
 -- Battery widget
 local batteries = {
-	spacing = 5,
+	spacing = 1,
 	layout = wibox.layout.fixed.horizontal,
 }
 for i, adapter in ipairs(battery_widget:discover()) do
     table.insert(batteries, battery_widget({
 	    adapter = adapter,
 	    ac_prefix = "AC:",
-    	    battery_prefix = "Bat:",
+    	    battery_prefix = "BAT:",
 	    limits = {
 	        { 25, "red"   },
 	        { 50, "orange"},
@@ -184,8 +184,8 @@ end
 -- Volume widget
 local volumewidget = volume_widget()
 volumewidget:update()
-volumeimagewidget = wibox.widget.imagebox()
-volumeimagewidget:set_image ("/home/fahmed/.config/awesome/images/speaker.png")
+--volumeimagewidget = wibox.widget.imagebox()
+--volumeimagewidget:set_image ("/home/fahmed/.config/awesome/images/speaker.png")
 
 local separator = wibox.widget.textbox()
 separator.text = "  "
@@ -272,7 +272,7 @@ awful.screen.connect_for_each_screen(function(s)
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
+    s.mywibox = awful.wibar({ position = "bottom", screen = s })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -290,15 +290,16 @@ awful.screen.connect_for_each_screen(function(s)
 	    separator,
 	    cpu,
             separator,
-            mykeyboardlayout,
-            wibox.widget.systray(),
-            separator,
-            volumeimagewidget,
+            --volumeimagewidget,
             volumewidget,
             separator,
 	    batteries,
             separator,
             mytextclock,
+	    separator,
+            mykeyboardlayout,
+            separator,
+            wibox.widget.systray(),
 	    separator,
             s.mylayoutbox,
         },
@@ -676,5 +677,5 @@ awful.spawn.with_shell('~/.config/awesome/locker.sh')
 awful.spawn("nm-applet")
 awful.spawn("blueman-applet")
 awful.spawn("mate-settings-daemon")
-awful.spawn.with_shell("pulseaudio --start")
+-- awful.spawn.with_shell("pulseaudio --start")
 -- }}}

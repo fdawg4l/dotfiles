@@ -31,7 +31,7 @@ theme.fg_urgent                             = "#CC9393"
 theme.bg_normal                             = black
 theme.bg_focus                              = "#1E2320"
 theme.bg_urgent                             = "#3F3F3F"
-theme.border_width                          = "0"
+theme.border_width                          = dpi(1)
 theme.border_normal                         = "#3F3F3F"
 theme.border_focus                          = "#6F6F6F"
 theme.border_marked                         = "#CC9393"
@@ -85,7 +85,7 @@ theme.awful_widget_margin_top = 2
 --theme.fg_urgent     = "#ffffff"
 --theme.fg_minimize   = "#ffffff"
 --
---theme.useless_gap   = dpi(0)
+theme.useless_gap   = 0
 --theme.border_width  = dpi(1)
 --theme.border_normal = "#000000"
 --theme.border_focus  = "#3F3F3F"

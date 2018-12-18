@@ -579,7 +579,7 @@ awful.rules.rules = {
           "veromix",
           "zoom",
 	  "spotify",
-	  "pavcontrol",
+	  "pavucontrol",
           "xtightvncviewer"},
 
         name = {

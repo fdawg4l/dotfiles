@@ -1,0 +1,12 @@
+#!/bin/bash
+echo -ne "\033]0;"$@"\007"
+ssha='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+
+master_ip_pwd=($(sshpass -p vmware $ssha -l root $@ \
+    /usr/lib/vmware-wcp/decryptK8Pwd.py 2> /dev/null | grep 'IP\|PWD' | cut -d' ' -f2))
+
+echo "Login to master:"
+echo "IP:  ${master_ip_pwd[0]}"
+echo "PWD: ${master_ip_pwd[1]}"
+
+sshpass -p "${master_ip_pwd[1]}" $ssha -l root ${master_ip_pwd[0]}

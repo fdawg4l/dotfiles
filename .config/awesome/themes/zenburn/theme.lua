@@ -16,7 +16,7 @@ white = "#ffffff"
 
 -- {{{ Main
 local theme = {}
-theme.wallpaper = "/home/fahmed/Pictures/Arden.jpg"
+theme.wallpaper = "/home/faiyaza/Pictures/Arden.jpg"
 -- }}}
 
 local xresources = require("beautiful.xresources")

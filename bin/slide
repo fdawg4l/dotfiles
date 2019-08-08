@@ -1,0 +1,6 @@
+#!/bin/sh
+
+host=$1
+shift
+
+sshpass -p vmware -- ssh -o StrictHostKeyChecking=no root@${host} $@

@@ -6,10 +6,10 @@ if &compatible
 endif
 "
 " Required:
-set runtimepath+=/home/fahmed/.local/share/nvim/site/./repos/github.com/Shougo/dein.vim
+set runtimepath+=/home/faiyaza/.local/share/nvim/site/./repos/github.com/Shougo/dein.vim
 "
 " Required:
-call dein#begin('/home/fahmed/.local/share/nvim/site/.')
+call dein#begin('/home/faiyaza/.local/share/nvim/site/.')
 
 " Let dein manage dein
 " Required:
@@ -117,7 +117,7 @@ set statusline+=%f
 " flags
 set statusline+=%m%r%h%w
 " git branch
-set statusline+=\ %{fugitive#statusline()}
+set statusline+=\ %{(FugitiveStatusline())}
 " line x of y
 set statusline+=\ [line\ %l\/%L]
 

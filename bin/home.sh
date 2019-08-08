@@ -1,10 +1,16 @@
 #!/bin/bash
 
-xrandr --dpi 96
-xrandr --output DP1-2 --primary
-xrandr --output eDP1 --off
+DPI=96
+#OUTPUT=DP-1-2
+OUTPUT=DP1
 
-gsettings set org.mate.font-rendering dpi 96
+xrandr --output ${OUTPUT} \
+	--auto \
+	--primary \
+	--pos 0x0 \
+	--dpi ${DPI} \
+	--output eDP-1 --off
+
+gsettings set org.mate.font-rendering dpi ${DPI}
 awesome-client 'awesome.restart()'
 nmcli r wifi off
-

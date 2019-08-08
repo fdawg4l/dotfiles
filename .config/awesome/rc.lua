@@ -1,6 +1,10 @@
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
+
+-- apparently this needs to start early
+awful.screen.set_auto_dpi_enabled(true)
+
 require("awful.autofocus")
 require("awful.remote")
 -- Widget and layout library
@@ -342,6 +346,9 @@ globalkeys = awful.util.table.join(
               {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
+    awful.key({ modkey,           }, "f", function () awful.layout.set(awful.layout.suit.max) end,
+        {description = "switch to max layout", group = "layout"}),
+
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
               {description = "swap with next client by index", group = "client"}),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,
@@ -439,10 +446,10 @@ globalkeys = awful.util.table.join(
                 awful.util.spawn("amixer sset Capture toggle")
         end),
 
-    awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("sp play") end),
-    awful.key({ }, "XF86AudioStop", function () awful.util.spawn("sp stop") end),
-    awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("sp prev") end),
-    awful.key({ }, "XF86AudioNext", function () awful.util.spawn("sp next") end),
+    awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("clementine -t") end),
+    awful.key({ }, "XF86AudioStop", function () awful.util.spawn("clementine -s") end),
+    awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("clementine -r") end),
+    awful.key({ }, "XF86AudioNext", function () awful.util.spawn("clementine -f") end),
 
     awful.key({ }, "XF86MonBrightnessUp",
         function ()
@@ -456,12 +463,6 @@ globalkeys = awful.util.table.join(
 )
 
 clientkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "f",
-        function (c)
-            c.fullscreen = not c.fullscreen
-            c:raise()
-        end,
-        {description = "toggle fullscreen", group = "client"}),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
               {description = "close", group = "client"}),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,

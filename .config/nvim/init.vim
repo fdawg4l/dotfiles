@@ -38,6 +38,9 @@ call dein#add('vim-syntastic/syntastic')
 
 " You can specify revision/branch/tag.
 call dein#add('Shougo/deol.nvim')
+
+call dein#add('vim-airline/vim-airline')
+
 "
 " Required:
 call dein#end()
@@ -103,6 +106,9 @@ let g:go_highlight_build_constraints = 1
 let g:go_fmt_command = "goimports"
 let g:go_bin_path = expand("~/.gotools")
 
+" git is unhappy with branch enabled
+let g:airline_extensions = [ 'ctrlp', 'fugitiveline', 'keymap', 'netrw', 'quickfix', 'syntastic', 'tabline', 'tagbar', 'term', 'tmuxline', 'whitespace', 'wordcount' ]
+
 
 "
 "
@@ -117,7 +123,7 @@ set statusline+=%f
 " flags
 set statusline+=%m%r%h%w
 " git branch
-set statusline+=\ %{fugitive#statusline()}
+" set statusline+=\ %{fugitive#statusline()}
 " line x of y
 set statusline+=\ [line\ %l\/%L]
 
@@ -168,3 +174,4 @@ highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Re
 highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
 highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
+highlight goDiagnosticError cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
